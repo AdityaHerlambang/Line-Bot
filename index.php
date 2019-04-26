@@ -20,7 +20,7 @@ use src\LINEBot\EchoBot\Dependency;
 use src\LINE\LINEBot\EchoBot\Route;
 use src\LINE\LINEBot\EchoBot\Setting;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 $setting = Setting::getSetting();
 $app = new Slim\App($setting);
