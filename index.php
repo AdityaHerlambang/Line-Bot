@@ -69,7 +69,17 @@ $app->post('/webhook', function ($request, $response) use ($bot, $pass_signature
                     // or we can use replyMessage() instead to send reply message
                     // $textMessageBuilder = new TextMessageBuilder($event['message']['text']);
                     // $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
-                    $bot->replyText($event['replyToken'], 'ini pesan balasan');
+
+                    $textMessageBuilder1 = new TextMessageBuilder('ini pesan balasan pertama');
+                    $textMessageBuilder2 = new TextMessageBuilder('ini pesan balasan kedua');
+                    $stickerMessageBuilder = new StickerMessageBuilder(1, 106);
+                    
+                    $multiMessageBuilder = new MultiMessageBuilder();
+                    $multiMessageBuilder->add($textMessageBuilder1);
+                    $multiMessageBuilder->add($textMessageBuilder2);
+                    $multiMessageBuilder->add($stickerMessageBuilder);
+                    
+                    $bot->replyMessage($event['replyToken'], $multiMessageBuilder);
 
     
                     return $response->withJson($result->getJSONDecodedBody(), $result->getHTTPStatus());
