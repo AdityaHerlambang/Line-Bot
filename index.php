@@ -9,7 +9,7 @@ use \LINE\LINEBot\MessageBuilder\StickerMessageBuilder;
 use \LINE\LINEBot\SignatureValidator as SignatureValidator;
  
 // set false for production
-$pass_signature = false;
+$pass_signature = true;
  
 // set LINE channel_access_token and channel_secret
 $channel_access_token = "SoeJO1WVrbYSUv4uUDNOy+rAbQ0wLwzeBN4cxiPFqNLmO76QAsGKsjhn9e4pMJCvCN30pDwNJpWbd/5IiqhQZNwT7J70mZVpZgGsjkQq4sqD7ez2lS7oiP9no39zLbUu/hSOwrJ6udqUAx7xe/UwGAdB04t89/1O/w1cDnyilFU=";
@@ -70,7 +70,8 @@ $app->post('/webhook', function ($request, $response) use ($bot, $pass_signature
                     // $textMessageBuilder = new TextMessageBuilder($event['message']['text']);
                     // $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
 
-                    $bot->replyText($replyToken, 'ini pesan balasan');
+                    $result = $bot->replyText($event['replyToken'], 'ini pesan balasan');
+
     
                     return $response->withJson($result->getJSONDecodedBody(), $result->getHTTPStatus());
                 }
