@@ -55,28 +55,19 @@ $app->post('/webhook', function ($request, $response) use ($bot, $pass_signature
  
     // TODO : Kode aplikasi nanti disini
 
-    $data = json_decode($body, true);
-    if(is_array($data['events'])){
-        foreach ($data['events'] as $event)
-        {
-            if ($event['type'] == 'message')
-            {
-                if($event['message']['type'] == 'text')
-                {
-                    // send same message as reply to user
-                    $result = $bot->replyText($event['replyToken'], $event['message']['text']);
-    
-                    // or we can use replyMessage() instead to send reply message
-                    // $textMessageBuilder = new TextMessageBuilder($event['message']['text']);
-                    // $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
-
-                    $result = $bot->replyText($event['replyToken'], 'ini pesan balasan');
-
-    
-                    return $response->withJson($result->getJSONDecodedBody(), $result->getHTTPStatus());
-                }
-            }
-        } 
+    foreach ($events as $event) {
+        if (!($event instanceof MessageEvent)) {
+            $logger->info('Non message event has come');
+            continue;
+        }
+        if (!($event instanceof TextMessage)) {
+            $logger->info('Non text message has come');
+            continue;
+        }
+        $replyText = $event->getText();
+        $logger->info('Reply text: ' . $replyText);
+        $resp = $bot->replyText($event->getReplyToken(), $replyText);
+        $logger->info($resp->getHTTPStatus() . ': ' . $resp->getRawBody());
     }
  
 });
