@@ -1,8 +1,14 @@
 <?php
+use \LINE\LINEBot;
+use \LINE\LINEBot\HTTPClient\CurlHTTPClient;
+use \LINE\LINEBot\MessageBuilder\MultiMessageBuilder;
+use \LINE\LINEBot\MessageBuilder\TextMessageBuilder;
+use \LINE\LINEBot\MessageBuilder\StickerMessageBuilder;
+use \LINE\LINEBot\SignatureValidator as SignatureValidator;
 
-$httpClient = new \LINE\LINEBot\HTTPClient\CurlHTTPClient('Ue6w7JASEziMETYphcd3GV9N0DpSxBrmsrcj5PqPPYbNYweIqlRkKP1Me0GtlyJyCN30pDwNJpWbd/5IiqhQZNwT7J70mZVpZgGsjkQq4spSG9bQiWqmqI5M9tPHVTYxUIk9tXYPi46x71ruJ5XDcwdB04t89/1O/w1cDnyilFU=');
+$httpClient = new CurlHTTPClient('Ue6w7JASEziMETYphcd3GV9N0DpSxBrmsrcj5PqPPYbNYweIqlRkKP1Me0GtlyJyCN30pDwNJpWbd/5IiqhQZNwT7J70mZVpZgGsjkQq4spSG9bQiWqmqI5M9tPHVTYxUIk9tXYPi46x71ruJ5XDcwdB04t89/1O/w1cDnyilFU=');
 
-$bot = new \LINE\LINEBot($httpClient, ['channelSecret' => '29f0dad6d37990c7305ed6a9c8e9c7b1']);
+$bot = new LINEBot($httpClient, ['channelSecret' => '29f0dad6d37990c7305ed6a9c8e9c7b1']);
 
 $host        = "host=ec2-54-235-114-242.compute-1.amazonaws.com";
 $port        = "port=5432";
@@ -25,7 +31,7 @@ while (true) {
     } 
     while($row = pg_fetch_row($ret)) {
 
-        $textMessageBuilder = new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($row[2]);
+        $textMessageBuilder = new TextMessageBuilder($row[2]);
         $response = $bot->pushMessage("'$row[1]'", $textMessageBuilder);
 
         $sql = "UPDATE tb_outbox SET flag = '2' WHERE outbox_id = '$row[0]'";
