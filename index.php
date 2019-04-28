@@ -59,13 +59,15 @@ $app->post('/webhook', function ($request, $response) use ($bot, $pass_signature
     $username = "W7TF6yHbqQ";
     $password = "0ohnYYdIxV";
 
-    // Create connection
-    $conn = new mysqli($servername, $username, $password);
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    } 
+    try{
+        $conn = new PDO("mysql:host=$servername;dbname=W7TF6yHbqQ", $username, $password);
+        // set the PDO error mode to exception
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        echo "Connected successfully"; 
+    }
+    catch(PDOException $e){
+        echo "Connection failed: " . $e->getMessage();
+    }
 
     $data = json_decode($body, true);
     if(is_array($data['events'])){
@@ -98,10 +100,10 @@ $app->post('/webhook', function ($request, $response) use ($bot, $pass_signature
 
                     $sql = "INSERT INTO tb_inbox VALUES(NULL,'".$user_id."','".$message."','1',NOW())";
 
-                    if ($conn->query($sql) === TRUE) {
-                        echo "New record created successfully";
-                    } else {
-                        echo "Error: " . $sql . "<br>" . $conn->error;
+                    try{
+                        $conn->exec($sql);
+                    }catch(PDOException $e){
+                        echo $sql . "<br>" . $e->getMessage();
                     }
 
     
