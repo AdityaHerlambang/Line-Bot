@@ -34,9 +34,7 @@ while (true) {
     while($row = pg_fetch_row($ret)) {
 
         $textMessageBuilder = new TextMessageBuilder($row[2]);
-        $to = "'".$row[1]."'";
-        echo var_dump($to);
-        $response = $bot->pushMessage($to, $textMessageBuilder);
+        $response = $bot->pushMessage($row[1], $textMessageBuilder);
 
         $sql = "UPDATE tb_outbox SET flag = '2' WHERE outbox_id = '$row[0]'";
 
