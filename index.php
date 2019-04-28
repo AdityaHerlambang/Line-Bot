@@ -69,10 +69,10 @@ $app->post('/webhook', function ($request, $response) use ($bot, $pass_signature
     //     echo "Connection failed: " . $e->getMessage();
     // }
 
-    $host        = "host=127.0.0.1";
+    $host        = "host=ec2-54-235-114-242.compute-1.amazonaws.com";
     $port        = "port=5432";
-    $dbname      = "dbname = testdb";
-    $credentials = "user = postgres password=pass123";
+    $dbname      = "dbname = d2co76h1n5n2a9";
+    $credentials = "user = fkymozizzteorb password=0fa6487dd0be42b6782661b3eb4450d30b9af32f86fac2d8bcd7f87f56854c5d";
 
     $db = pg_connect( "$host $port $dbname $credentials"  );
     if(!$db) {
