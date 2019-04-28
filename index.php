@@ -95,7 +95,7 @@ $app->post('/webhook', function ($request, $response) use ($bot, $pass_signature
                     
                     $bot->replyMessage($event['replyToken'], $multiMessageBuilder);
 
-                    $user_id = $event['source']['user_id'];
+                    $user_id = $event['source']['userId'];
                     $message = $event['message']['text'];
 
                     $sql = "INSERT INTO tb_inbox VALUES(NULL,'".$user_id."','".$message."','1',NOW())";
