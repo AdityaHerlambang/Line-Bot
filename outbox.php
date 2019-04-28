@@ -43,6 +43,8 @@ while (true) {
             echo pg_last_error($db);
         }
 
+        echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
+
     }
 
 
