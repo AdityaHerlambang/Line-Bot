@@ -44,6 +44,7 @@ while (true) {
         }
 
         echo $response->getHTTPStatus() . ' ' . $response->getRawBody();
+        echo 'TO = '."'$row[1]'";
 
     }
 
