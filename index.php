@@ -55,18 +55,28 @@ $app->post('/webhook', function ($request, $response) use ($bot, $pass_signature
  
     // APP CODE :
 
-    $servername = "remotemysql.com";
-    $username = "W7TF6yHbqQ";
-    $password = "0ohnYYdIxV";
+    // $servername = "remotemysql.com";
+    // $username = "W7TF6yHbqQ";
+    // $password = "0ohnYYdIxV";
 
-    try{
-        $conn = new PDO("mysql:host=$servername;dbname=W7TF6yHbqQ", $username, $password);
-        // set the PDO error mode to exception
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        echo "Connected successfully"; 
-    }
-    catch(PDOException $e){
-        echo "Connection failed: " . $e->getMessage();
+    // try{
+    //     $conn = new PDO("mysql:host=$servername;dbname=W7TF6yHbqQ", $username, $password);
+    //     // set the PDO error mode to exception
+    //     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    //     echo "Connected successfully"; 
+    // }
+    // catch(PDOException $e){
+    //     echo "Connection failed: " . $e->getMessage();
+    // }
+
+    $host        = "host=127.0.0.1";
+    $port        = "port=5432";
+    $dbname      = "dbname = testdb";
+    $credentials = "user = postgres password=pass123";
+
+    $db = pg_connect( "$host $port $dbname $credentials"  );
+    if(!$db) {
+        echo "Error : Unable to open database\n";
     }
 
     $data = json_decode($body, true);
@@ -100,11 +110,18 @@ $app->post('/webhook', function ($request, $response) use ($bot, $pass_signature
 
                     $sql = "INSERT INTO tb_inbox VALUES(NULL,'".$user_id."','".$message."','1',NOW())";
 
-                    try{
-                        $conn->exec($sql);
-                    }catch(PDOException $e){
-                        echo $sql . "<br>" . $e->getMessage();
+                    $ret = pg_query($db, $sql);
+                    if(!$ret) {
+                        echo pg_last_error($db);
                     }
+
+                    // $sql = "INSERT INTO tb_inbox VALUES(NULL,'".$user_id."','".$message."','1',NOW())";
+
+                    // try{
+                    //     $conn->exec($sql);
+                    // }catch(PDOException $e){
+                    //     echo $sql . "<br>" . $e->getMessage();
+                    // }
 
     
                     return $response->withJson($result->getJSONDecodedBody(), $result->getHTTPStatus());
