@@ -53,7 +53,19 @@ $app->post('/webhook', function ($request, $response) use ($bot, $pass_signature
         }
     }
  
-    // kode aplikasi nanti disini
+    // APP CODE :
+
+    $servername = "remotemysql.com";
+    $username = "W7TF6yHbqQ";
+    $password = "0ohnYYdIxV";
+
+    // Create connection
+    $conn = new mysqli($servername, $username, $password);
+
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    } 
 
     $data = json_decode($body, true);
     if(is_array($data['events'])){
@@ -70,16 +82,27 @@ $app->post('/webhook', function ($request, $response) use ($bot, $pass_signature
                     // $textMessageBuilder = new TextMessageBuilder($event['message']['text']);
                     // $result = $bot->replyMessage($event['replyToken'], $textMessageBuilder);
 
-                    $textMessageBuilder1 = new TextMessageBuilder('ini pesan balasan pertama');
-                    $textMessageBuilder2 = new TextMessageBuilder('ini pesan balasan kedua');
-                    $stickerMessageBuilder = new StickerMessageBuilder(1, 106);
+                    $textMessageBuilder1 = new TextMessageBuilder('Halo, ini balasan pesan.');
+                    // $textMessageBuilder2 = new TextMessageBuilder('ini pesan balasan kedua');
+                    // $stickerMessageBuilder = new StickerMessageBuilder(1, 106);
                     
                     $multiMessageBuilder = new MultiMessageBuilder();
                     $multiMessageBuilder->add($textMessageBuilder1);
-                    $multiMessageBuilder->add($textMessageBuilder2);
-                    $multiMessageBuilder->add($stickerMessageBuilder);
+                    // $multiMessageBuilder->add($textMessageBuilder2);
+                    // $multiMessageBuilder->add($stickerMessageBuilder);
                     
                     $bot->replyMessage($event['replyToken'], $multiMessageBuilder);
+
+                    $user_id = $event['source']['user_id'];
+                    $message = $event['message']['text'];
+
+                    $sql = "INSERT INTO tb_inbox VALUES(NULL,'".$user_id."','".$message."','1',NOW())";
+
+                    if ($conn->query($sql) === TRUE) {
+                        echo "New record created successfully";
+                    } else {
+                        echo "Error: " . $sql . "<br>" . $conn->error;
+                    }
 
     
                     return $response->withJson($result->getJSONDecodedBody(), $result->getHTTPStatus());
