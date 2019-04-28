@@ -35,7 +35,7 @@ while (true) {
 
         $textMessageBuilder = new TextMessageBuilder($row[2]);
         $to = "'".$row[1]."'";
-        echo $to;
+        echo var_dump($to);
         $response = $bot->pushMessage($to, $textMessageBuilder);
 
         $sql = "UPDATE tb_outbox SET flag = '2' WHERE outbox_id = '$row[0]'";
