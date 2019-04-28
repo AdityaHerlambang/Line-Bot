@@ -103,7 +103,8 @@ $app->post('/webhook', function ($request, $response) use ($bot, $pass_signature
                     // $multiMessageBuilder->add($textMessageBuilder2);
                     // $multiMessageBuilder->add($stickerMessageBuilder);
                     
-                    $bot->replyMessage($event['replyToken'], $multiMessageBuilder);
+                    //kirim pesan :
+                    // $bot->replyMessage($event['replyToken'], $multiMessageBuilder);
 
                     $user_id = $event['source']['userId'];
                     $message = $event['message']['text'];
