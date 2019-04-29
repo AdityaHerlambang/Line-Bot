@@ -48,5 +48,5 @@ while (true) {
     }
 
 
-    sleep(5);
+    sleep(1);
 }
