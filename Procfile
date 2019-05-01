@@ -1,1 +1,1 @@
-web: php outbox.php
+web: $(composer config bin-dir)/heroku-php-apache2
