@@ -112,17 +112,17 @@ $app->post('/webhook', function ($request, $response) use ($bot, $pass_signature
                     $user_id = $event['source']['userId'];
                     $message = $event['message']['text'];
 
-                    $sql = "INSERT INTO tb_inbox VALUES(NULL,'".$user_id."','".$message."','1',NOW())";
-
-                    $conn->exec($sql);
-
                     // $sql = "INSERT INTO tb_inbox VALUES(NULL,'".$user_id."','".$message."','1',NOW())";
 
-                    // try{
-                    //     $conn->exec($sql);
-                    // }catch(PDOException $e){
-                    //     echo $sql . "<br>" . $e->getMessage();
-                    // }
+                    // $conn->exec($sql);
+
+                    $sql = "INSERT INTO tb_inbox VALUES(NULL,'".$user_id."','".$message."','1',NOW())";
+
+                    try{
+                        $conn->exec($sql);
+                    }catch(PDOException $e){
+                        echo $sql . "<br>" . $e->getMessage();
+                    }
 
     
                     return $response->withJson($result->getJSONDecodedBody(), $result->getHTTPStatus());
