@@ -69,14 +69,17 @@ $app->post('/webhook', function ($request, $response) use ($bot, $pass_signature
     //     echo "Connection failed: " . $e->getMessage();
     // }
 
-    $host        = "host=ec2-54-235-114-242.compute-1.amazonaws.com";
-    $port        = "port=5432";
-    $dbname      = "dbname = d2co76h1n5n2a9";
-    $credentials = "user = fkymozizzteorb password=0fa6487dd0be42b6782661b3eb4450d30b9af32f86fac2d8bcd7f87f56854c5d";
+    $servername = "a07yd3a6okcidwap.cbetxkdyhwsb.us-east-1.rds.amazonaws.com";
+    $username = "wh7dq3n9z2a4cx4v";
+    $password = "zjtrxk0qt1zch688";
 
-    $db = pg_connect( "$host $port $dbname $credentials"  );
-    if(!$db) {
-        echo "Error : Unable to open database\n";
+    try {
+        $conn = new PDO("mysql:host=$servername;dbname=portm38ts3yozf8q", $username, $password);
+        // set the PDO error mode to exception
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    }
+    catch(PDOException $e){
+        echo "Connection failed: " . $e->getMessage();
     }
 
     $data = json_decode($body, true);
@@ -109,12 +112,9 @@ $app->post('/webhook', function ($request, $response) use ($bot, $pass_signature
                     $user_id = $event['source']['userId'];
                     $message = $event['message']['text'];
 
-                    $sql = "INSERT INTO tb_inbox VALUES(nextval('inbox_id_seq'),'".$user_id."','".$message."','1',NOW())";
+                    $sql = "INSERT INTO tb_inbox VALUES(NULL,'".$user_id."','".$message."','1',NOW())";
 
-                    $ret = pg_query($db, $sql);
-                    if(!$ret) {
-                        echo pg_last_error($db);
-                    }
+                    $conn->exec($sql);
 
                     // $sql = "INSERT INTO tb_inbox VALUES(NULL,'".$user_id."','".$message."','1',NOW())";
 
