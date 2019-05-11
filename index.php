@@ -12,8 +12,8 @@ use \LINE\LINEBot\SignatureValidator as SignatureValidator;
 $pass_signature = true;
  
 // set LINE channel_access_token and channel_secret
-$channel_access_token = "ZYiZB1TXSfy4RfHkiYw388afiBELxgc156z6LTESwg4iCOcP8pE5XvX8xzHepIThamGUKiaHLmXKvQWscdWG69vGKw9oPRRWmQO9ooRsWFyYlSYjDExzgkJ9iErirK0iqQrIdg7lWOcIR2P5DErzBwdB04t89/1O/w1cDnyilFU=";
-$channel_secret = "6b5b58e1b0ecdffc1f0790735d2859c2";
+$channel_access_token = "iWNh+1bl3bwIXMjS8Rqe9Wc9DewUIO7PQ2yC4P3l7lrk/DNIsApTXPCco50iLoe6amGUKiaHLmXKvQWscdWG69vGKw9oPRRWmQO9ooRsWFxdovlF4mKo9PU/o4xkv/In4G98sCW56j9eYVG99n7SpAdB04t89/1O/w1cDnyilFU=";
+$channel_secret = "787cef1e3d92d803d04b55faf4fb5297";
  
 // inisiasi objek bot
 $httpClient = new CurlHTTPClient($channel_access_token);
@@ -125,7 +125,7 @@ $app->post('/webhook', function ($request, $response) use ($bot, $pass_signature
                     }
 
     
-                    return $response->withJson($result->getJSONDecodedBody(), $result->getHTTPStatus());
+                    return $response->withJson($response->getJSONDecodedBody(), $response->getHTTPStatus());
                 }
             }
         } 
